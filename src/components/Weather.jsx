@@ -8,6 +8,7 @@ function Weather() {
   const [weatherData, setWeatherData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [unitsChanged, setUnitsChanged] = useState(false)
 
   const API_KEY = import.meta.env.VITE_API_KEY
 
@@ -18,6 +19,9 @@ function Weather() {
   const handleUnitsChange = (e) => {
     setUnits(e.target.value)
     setWeatherData(null)
+    if (zipCode.length === 5) {
+      setUnitsChanged(true)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -30,6 +34,7 @@ function Weather() {
 
     setIsLoading(true)
     setError(null)
+    setUnitsChanged(false)
     
     try {
       const response = await fetch(
@@ -96,12 +101,51 @@ function Weather() {
         </button>
       </form>
       
-      {error && <div className="error">{error}</div>}
-      
-      {weatherData && <DisplayWeather 
-        weatherData={weatherData}
-        units={units}
-      />}
+      <div className="weather-state-container">
+        {isLoading && (
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Fetching weather data...</p>
+          </div>
+        )}
+        
+        {error && (
+          <div className="error-state">
+            <div className="error-icon">!</div>
+            <h3>Something went wrong</h3>
+            <p>{error}</p>
+            <button 
+              onClick={() => setError(null)}
+              className="dismiss-error"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+        
+        {!isLoading && !error && !weatherData && unitsChanged && (
+          <div className="units-changed-state">
+            <div className="units-icon">🔄</div>
+            <h3>Units changed to {units === 'metric' ? 'Celsius' : units === 'imperial' ? 'Fahrenheit' : 'Kelvin'}</h3>
+            <p>Click "Get Weather" to see updated values</p>
+          </div>
+        )}
+        
+        {!isLoading && !error && !weatherData && !unitsChanged && (
+          <div className="initial-state">
+            <div className="welcome-icon">🌤️</div>
+            <h3>Enter a zip code to get started</h3>
+            <p>Current units: {units === 'metric' ? 'Celsius' : units === 'imperial' ? 'Fahrenheit' : 'Kelvin'}</p>
+          </div>
+        )}
+        
+        {!isLoading && !error && weatherData && (
+          <DisplayWeather 
+            weatherData={weatherData}
+            units={units}
+          />
+        )}
+      </div>
     </div>
   )
 }
