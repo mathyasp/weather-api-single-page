@@ -13,6 +13,13 @@
   color: #333;
   margin-bottom: 15px;
   font-size: 28px;
+  padding-bottom: 10px;
+}
+
+.weather-heading {
+  display: flex;
+  justify-content: space-between;  
+  align-items: center;             
   border-bottom: 2px solid #e9ecef;
   padding-bottom: 10px;
 }
@@ -49,4 +56,12 @@
   .temperature {
     font-size: 36px;
   }
+}
+
+.weather-icon {
+  display: block;
+  font-size: 4rem;
+  width: 80px;
+  height: 80px;
+  margin-left: 15px;
 }
