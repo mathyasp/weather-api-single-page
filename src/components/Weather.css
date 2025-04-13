@@ -8,3 +8,32 @@
   color: #333;
   margin-bottom: 2rem;
 }
+
+form {
+  margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 120px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0052a3;
+}
