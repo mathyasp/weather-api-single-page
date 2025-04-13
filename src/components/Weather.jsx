@@ -22,8 +22,10 @@ function Weather() {
           value={zipCode}
           onChange={handleChange}
           placeholder="Enter zip code"
-          pattern="[0-9]*"
+          pattern="[0-9]{5}"
+          title="Please enter a valid 5-digit zip code"
           maxLength="5"
+          required
         />
         <div className="units-selector">
           <label htmlFor="units">Temperature Units:</label>
