@@ -3,9 +3,14 @@ import './Weather.css'
 
 function Weather() {
   const [zipCode, setZipCode] = useState('')
+  const [units, setUnits] = useState('imperial')
 
   const handleChange = (e) => {
     setZipCode(e.target.value)
+  }
+
+  const handleUnitsChange = (e) => {
+    setUnits(e.target.value)
   }
 
   return (
@@ -20,9 +25,22 @@ function Weather() {
           pattern="[0-9]*"
           maxLength="5"
         />
+        <div className="units-selector">
+          <label htmlFor="units">Temperature Units:</label>
+          <select 
+            id="units" 
+            value={units} 
+            onChange={handleUnitsChange}
+          >
+            <option value="metric">Metric (°C)</option>
+            <option value="imperial">Imperial (°F)</option>
+            <option value="standard">Standard (K)</option>
+          </select>
+        </div>
         <button type="submit">Get Weather</button>
       </form>
       <p>Current zip code: {zipCode}</p>
+      <p>Units: {units === 'metric' ? 'Celsius' : units === 'imperial' ? 'Fahrenheit' : 'Kelvin'}</p>
     </div>
   )
 }
