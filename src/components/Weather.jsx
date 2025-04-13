@@ -36,19 +36,33 @@ function Weather() {
         `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&units=${units}&appid=${API_KEY}`
       )
       
-      if (!response.ok) {
-        throw new Error('Weather data not available')
-      }
-      
       const data = await response.json()
       console.log('Weather data:', data)
-      setWeatherData(data)
+      
+      if (data.cod === 200) {
+        setWeatherData(data)
+      } else {
+        setWeatherData(null);
+        const errorMessage = getErrorMessage(data.cod, data.message)
+        throw new Error(errorMessage)
+      }
     } catch (err) {
       setError('Failed to fetch weather data: ' + err.message)
       console.error('Weather fetch error:', err)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const getErrorMessage = (code, defaultMessage) => {
+    const errorMessages = {
+      '401': 'API authentication failed. Please check your API key.',
+      '404': 'Location not found. Please check your zip code.',
+      '429': 'Too many requests. Please try again later.',
+      '500': 'Weather service error. Please try again later.',
+    }
+    
+    return errorMessages[code] || defaultMessage || 'Weather data not available'
   }
 
   return (
