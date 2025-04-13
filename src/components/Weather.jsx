@@ -16,6 +16,7 @@ function Weather() {
 
   const handleUnitsChange = (e) => {
     setUnits(e.target.value)
+    setWeatherData(null)
   }
 
   const handleSubmit = async (e) => {
